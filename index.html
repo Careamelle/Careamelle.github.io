@@ -3,242 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carmel Angelo N. Hervera | Portfolio</title>
-    
-    <!-- Load Tailwind CSS for rapid styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Load Google Fonts for elegant typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    
-    <!-- Custom CSS for specific aesthetic touches and animations -->
+    <title>Animation & Art Portfolio</title>
     <style>
+        /* Minimalist base settings */
         body {
-            /* Soft, warm off-white background */
-            background-color: #faf9f6;
-            color: #2c2c2c;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        h1, h2, h3, .font-serif {
-            font-family: 'Playfair Display', serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FAFAFA; /* Warm off-white */
+            color: #333333;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
         }
 
-        /* Smooth transition classes for filtering */
-        .gallery-item {
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-        
-        .gallery-item.hide {
-            opacity: 0;
-            transform: scale(0.95);
-            pointer-events: none;
-            position: absolute; /* Remove from document flow temporarily */
-            visibility: hidden;
+        /* Header typography and layout */
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
         }
 
-        /* Image hover effect */
-        .image-container img {
-            transition: transform 0.6s ease;
-        }
-        .image-container:hover img {
-            transform: scale(1.03);
+        h1 {
+            font-family: Georgia, serif;
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+            font-weight: normal;
         }
 
-        /* Filter button styling */
+        p.subtitle {
+            color: #666;
+            margin: 0 0 30px 0;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Filter Buttons */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
         .filter-btn {
-            position: relative;
-            color: #737373;
-            transition: color 0.3s ease;
-        }
-        
-        .filter-btn::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: -2px;
-            left: 50%;
-            background-color: #2c2c2c;
-            transition: width 0.3s ease, left 0.3s ease;
+            background: transparent;
+            border: 1px solid #ddd;
+            padding: 8px 20px;
+            cursor: pointer;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #555;
+            transition: all 0.3s ease;
         }
 
-        .filter-btn:hover {
-            color: #2c2c2c;
+        .filter-btn:hover, .filter-btn.active {
+            background: #333;
+            color: #fff;
+            border-color: #333;
         }
 
-        .filter-btn.active {
-            color: #2c2c2c;
-            font-weight: 500;
+        /* Gallery Grid Layout */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 0 40px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .filter-btn.active::after {
+        /* Individual Item Styling */
+        .gallery-item {
+            background-color: #EFEFEF; /* Placeholder color for your images */
+            border-radius: 4px;
+            overflow: hidden;
+            aspect-ratio: 4/3; /* Keeps all boxes uniformly shaped */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .gallery-item img {
             width: 100%;
-            left: 0;
+            height: 100%;
+            object-fit: cover; /* Ensures images fill the box perfectly */
         }
+
+        /* THE FIX: Completely removes hidden items so they take up zero space */
+        .gallery-item.hidden {
+            display: none !important;
+        }
+
     </style>
 </head>
-<body class="antialiased min-h-screen flex flex-col">
+<body>
 
-    <header class="w-full max-w-6xl mx-auto px-6 pt-24 pb-12 text-center">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl tracking-wide mb-4 text-gray-900 font-serif">
-            Carmel Angelo N. Hervera
-        </h1>
-        <p class="text-sm md:text-base text-gray-500 uppercase tracking-widest font-light mb-12">
-            Animation & Art Portfolio
-        </p>
+    <header>
+        <h1>My Animation Works</h1>
+        <p class="subtitle">Portfolio</p>
 
-        <!-- Category Filters -->
-        <nav class="flex flex-wrap justify-center gap-6 md:gap-10 text-sm md:text-base tracking-wide">
+        <!-- Category Buttons -->
+        <div class="filters">
             <button class="filter-btn active" data-filter="all">All</button>
             <button class="filter-btn" data-filter="arts">Arts</button>
             <button class="filter-btn" data-filter="inbetweens">Inbetweens</button>
             <button class="filter-btn" data-filter="sketches">Sketches</button>
-        </nav>
+        </div>
     </header>
 
-    <main class="flex-grow w-full max-w-6xl mx-auto px-6 pb-24">
-        <!-- Responsive Grid -->
-        <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 relative">
-            
-            <!-- Art Item 1 -->
-            <article class="gallery-item" data-category="arts">
-                <div class="image-container overflow-hidden rounded bg-gray-100 aspect-[4/5] cursor-pointer shadow-sm hover:shadow-md transition-shadow">
-                    <img src="https://placehold.co/600x750/e2e0d8/4a4a4a?text=Art+Piece+1" alt="Art Piece 1" class="w-full h-full object-cover">
-                </div>
-                <div class="mt-3">
-                    <h3 class="text-lg font-serif">Character Study</h3>
-                    <p class="text-xs text-gray-500 uppercase tracking-wider mt-1">Arts</p>
-                </div>
-            </article>
+    <!-- Gallery Container -->
+    <div class="gallery">
+        
+        <!-- Art Items -->
+        <div class="Fuu~chan.png">Art 1 Image Here</div>
+        <div class="Recreation signature.png">Art 2 Image Here</div>
+        <div class="Picrew genshin for tiktok.png">Art 3 Image Here</div>
+        <div class="Genshin OC picrew.png">Art 4 Image Here</div>
 
-            <!-- Art Item 2 -->
-            <article class="gallery-item" data-category="arts">
-                <div class="image-container overflow-hidden rounded bg-gray-100 aspect-[4/5] cursor-pointer shadow-sm hover:shadow-md transition-shadow">
-                    <img src="https://placehold.co/600x750/d3d6d2/4a4a4a?text=Art+Piece+2" alt="Art Piece 2" class="w-full h-full object-cover">
-                </div>
-                <div class="mt-3">
-                    <h3 class="text-lg font-serif">Concept Landscape</h3>
-                    <p class="text-xs text-gray-500 uppercase tracking-wider mt-1">Arts</p>
-                </div>
-            </article>
+        <!-- Inbetween Items -->
+        <div class="gallery-item inbetweens">Inbetween 1 Image Here</div>
+        <div class="gallery-item inbetweens">Inbetween 2 Image Here</div>
+        <div class="gallery-item inbetweens">Inbetween 3 Image Here</div>
+        <div class="gallery-item inbetweens">Inbetween 4 Image Here</div>
 
-            <!-- Art Item 3 -->
-            <article class="gallery-item" data-category="arts">
-                <div class="image-container overflow-hidden rounded bg-gray-100 aspect-[4/5] cursor-pointer shadow-sm hover:shadow-md transition-shadow">
-                    <img src="https://placehold.co/600x750/e8dcd8/4a4a4a?text=Art+Piece+3" alt="Art Piece 3" class="w-full h-full object-cover">
-                </div>
-                <div class="mt-3">
-                    <h3 class="text-lg font-serif">Lighting Test</h3>
-                    <p class="text-xs text-gray-500 uppercase tracking-wider mt-1">Arts</p>
-                </div>
-            </article>
+        <!-- Sketch Items -->
+        <div class="gallery-item sketches">Sketch 1 Image Here</div>
+        <div class="gallery-item sketches">Sketch 2 Image Here</div>
 
-            <!-- Art Item 4 -->
-            <article class="gallery-item" data-category="arts">
-                <div class="image-container overflow-hidden rounded bg-gray-100 aspect-[4/5] cursor-pointer shadow-sm hover:shadow-md transition-shadow">
-                    <img src="https://placehold.co/600x750/dadbdf/4a4a4a?text=Art+Piece+4" alt="Art Piece 4" class="w-full h-full object-cover">
-                </div>
-                <div class="mt-3">
-                    <h3 class="text-lg font-serif">Storyboard Frame</h3>
-                    <p class="text-xs text-gray-500 uppercase tracking-wider mt-1">Arts</p>
-                </div>
-            </article>
+    </div>
 
-            <!-- Inbetween Item 1 -->
-            <article class="gallery-item" data-category="inbetweens">
-                <div class="image-container overflow-hidden rounded bg-gray-100 aspect-[4/5] cursor-pointer shadow-sm hover:shadow-md transition-shadow">
-                    <img src="https://placehold.co/600x750/d9e2e8/4a4a4a?text=Inbetween+1" alt="Inbetween 1" class="w-full h-full object-cover">
-                </div>
-                <div class="mt-3">
-                    <h3 class="text-lg font-serif">Run Cycle 01</h3>
-                    <p class="text-xs text-gray-500 uppercase tracking-wider mt-1">Inbetweens</p>
-                </div>
-            </article>
-
-            <!-- Inbetween Item 2 -->
-            <article class="gallery-item" data-category="inbetweens">
-                <div class="image-container overflow-hidden rounded bg-gray-100 aspect-[4/5] cursor-pointer shadow-sm hover:shadow-md transition-shadow">
-                    <img src="https://placehold.co/600x750/e3e0e5/4a4a4a?text=Inbetween+2" alt="Inbetween 2" class="w-full h-full object-cover">
-                </div>
-                <div class="mt-3">
-                    <h3 class="text-lg font-serif">Walk Cycle 02</h3>
-                    <p class="text-xs text-gray-500 uppercase tracking-wider mt-1">Inbetweens</p>
-                </div>
-            </article>
-
-            <!-- Inbetween Item 3 -->
-            <article class="gallery-item" data-category="inbetweens">
-                <div class="image-container overflow-hidden rounded bg-gray-100 aspect-[4/5] cursor-pointer shadow-sm hover:shadow-md transition-shadow">
-                    <img src="https://placehold.co/600x750/e5ddd3/4a4a4a?text=Inbetween+3" alt="Inbetween 3" class="w-full h-full object-cover">
-                </div>
-                <div class="mt-3">
-                    <h3 class="text-lg font-serif">Jump Action</h3>
-                    <p class="text-xs text-gray-500 uppercase tracking-wider mt-1">Inbetweens</p>
-                </div>
-            </article>
-
-            <!-- Inbetween Item 4 -->
-            <article class="gallery-item" data-category="inbetweens">
-                <div class="image-container overflow-hidden rounded bg-gray-100 aspect-[4/5] cursor-pointer shadow-sm hover:shadow-md transition-shadow">
-                    <img src="https://placehold.co/600x750/dbe8de/4a4a4a?text=Inbetween+4" alt="Inbetween 4" class="w-full h-full object-cover">
-                </div>
-                <div class="mt-3">
-                    <h3 class="text-lg font-serif">Morph Sequence</h3>
-                    <p class="text-xs text-gray-500 uppercase tracking-wider mt-1">Inbetweens</p>
-                </div>
-            </article>
-            
-            <!-- Empty state for Sketches (visible when filtered) -->
-            <div id="empty-state" class="hidden col-span-full text-center py-20 text-gray-400">
-                <p class="font-light tracking-wide text-lg">More works coming soon.</p>
-            </div>
-
-        </div>
-    </main>
-
-    <footer class="w-full max-w-6xl mx-auto px-6 py-8 border-t border-gray-200 text-center">
-        <p class="text-sm text-gray-400 font-light">&copy; 2026 Carmel Angelo N. Hervera. All rights reserved.</p>
-    </footer>
-
+    <!-- JavaScript to handle the instant sorting -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const galleryItems = document.querySelectorAll('.gallery-item');
-            const emptyState = document.getElementById('empty-state');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
 
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    // 1. Update active button styles
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                
+                // 1. Update button styling (highlight the clicked one)
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
 
-                    // 2. Get the selected category
-                    const filterValue = button.getAttribute('data-filter');
-                    let visibleCount = 0;
+                // 2. Get the category we want to see
+                const filterValue = button.getAttribute('data-filter');
 
-                    // 3. Filter items with smooth transition
-                    galleryItems.forEach(item => {
-                        const itemCategory = item.getAttribute('data-category');
-                        
-                        if (filterValue === 'all' || filterValue === itemCategory) {
-                            // Show item
-                            item.classList.remove('hide');
-                            item.style.position = 'relative'; // Restore to normal grid flow
-                            visibleCount++;
-                        } else {
-                            // Hide item
-                            item.classList.add('hide');
-                        }
-                    });
-
-                    // 4. Handle empty states (e.g., if "Sketches" has no items yet)
-                    if (visibleCount === 0) {
-                        emptyState.classList.remove('hidden');
+                // 3. Loop through all items to show/hide them
+                galleryItems.forEach(item => {
+                    if (filterValue === 'all' || item.classList.contains(filterValue)) {
+                        item.classList.remove('hidden'); // Show it
                     } else {
-                        emptyState.classList.add('hidden');
+                        item.classList.add('hidden'); // Completely remove it from the layout
                     }
                 });
             });
