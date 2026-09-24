@@ -15,10 +15,76 @@
             line-height: 1.6;
         }
 
+        /* Top Left Profile Widget */
+        .profile-container {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            z-index: 100;
+        }
+
+        .profile-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #ddd;
+            object-fit: cover;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 2px solid #fff;
+            transition: transform 0.2s ease;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-card {
+            position: absolute;
+            top: 65px;
+            left: 0;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            width: 260px;
+            
+            /* Hidden state for smooth animation */
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        /* The class JavaScript adds to make it visible */
+        .profile-card.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .profile-card h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.1rem;
+            font-family: Georgia, serif;
+        }
+
+        .profile-card p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .profile-card .location {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
         /* Header typography and layout */
         header {
             text-align: center;
-            padding: 60px 20px 40px;
+            padding: 80px 20px 40px; /* Increased top padding so it doesn't hit the profile */
         }
 
         h1 {
@@ -74,10 +140,10 @@
 
         /* Individual Item Styling */
         .gallery-item {
-            background-color: #EFEFEF; /* Placeholder color for your images */
+            background-color: #EFEFEF; 
             border-radius: 4px;
             overflow: hidden;
-            aspect-ratio: 4/3; /* Keeps all boxes uniformly shaped */
+            aspect-ratio: 4/3; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -88,10 +154,10 @@
         .gallery-item img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ensures images fill the box perfectly */
+            object-fit: cover; 
         }
 
-        /* THE FIX: Completely removes hidden items so they take up zero space */
+        /* Removes hidden items from the layout completely */
         .gallery-item.hidden {
             display: none !important;
         }
@@ -99,6 +165,18 @@
     </style>
 </head>
 <body>
+
+    <!-- TOP LEFT PROFILE SECTION -->
+    <div class="profile-container">
+        <!-- Change the src to a picture of you, or your logo -->
+        <img src="profile-picture.png" alt="Profile" class="profile-avatar" id="profileAvatar">
+        
+        <div class="profile-card" id="profileCard">
+            <h3>Carmel Angelo N. Hervera</h3>
+            <p>Electronics Engineering Student & Animator</p>
+            <p class="location">Sorsogon City, Philippines</p>
+        </div>
+    </div>
 
     <header>
         <h1>My Animation Works</h1>
@@ -118,7 +196,7 @@
         
         <!-- Art Items -->
         <div class="gallery-item arts">
-            <img src="Fuu~chan.png" alt="Fuu-chan">
+            <img src="fuu-chan.png" alt="Fuu-chan">
         </div>
         <div class="gallery-item arts">
             <img src="recreation-signature.png" alt="Recreation signature">
@@ -154,27 +232,42 @@
 
     </div>
 
-    <!-- JavaScript to handle the instant sorting -->
+    <!-- JavaScript block -->
     <script>
+        // --- 1. PROFILE EXPANSION SCRIPT ---
+        const profileAvatar = document.getElementById('profileAvatar');
+        const profileCard = document.getElementById('profileCard');
+
+        // Toggle the card when clicking the avatar
+        profileAvatar.addEventListener('click', (event) => {
+            profileCard.classList.toggle('active');
+            event.stopPropagation(); // Stops the click from instantly triggering the "close" script below
+        });
+
+        // Close the profile card if the user clicks anywhere else on the screen
+        document.addEventListener('click', (event) => {
+            if (!profileCard.contains(event.target)) {
+                profileCard.classList.remove('active');
+            }
+        });
+
+        // --- 2. GALLERY FILTERING SCRIPT ---
         const filterButtons = document.querySelectorAll('.filter-btn');
         const galleryItems = document.querySelectorAll('.gallery-item');
 
         filterButtons.forEach(button => {
             button.addEventListener('click', () => {
                 
-                // 1. Update button styling (highlight the clicked one)
                 filterButtons.forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
 
-                // 2. Get the category we want to see
                 const filterValue = button.getAttribute('data-filter');
 
-                // 3. Loop through all items to show/hide them
                 galleryItems.forEach(item => {
                     if (filterValue === 'all' || item.classList.contains(filterValue)) {
-                        item.classList.remove('hidden'); // Show it
+                        item.classList.remove('hidden');
                     } else {
-                        item.classList.add('hidden'); // Completely remove it from the layout
+                        item.classList.add('hidden');
                     }
                 });
             });
