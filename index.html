@@ -9,100 +9,94 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #FAFAFA; /* Warm off-white */
+            background-color: #FAFAFA;
             color: #333333;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             line-height: 1.6;
         }
 
-        /* Top Left Profile Widget */
-        .profile-container {
+        /* --- Hero Background Section --- */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            min-height: 70vh; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ddd; 
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-overlay {
             position: absolute;
-            top: 25px;
-            left: 25px;
-            z-index: 100;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); 
+            transition: background 0.5s ease; /* Smooth fading effect */
+        }
+
+        /* New class added by JavaScript to lower the brightness */
+        .hero-overlay.dimmed {
+            background: rgba(0, 0, 0, 0.85); /* Much darker overlay */
+        }
+
+        /* --- Floating Profile Box --- */
+        .floating-profile-card {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 50px 40px 40px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            margin-top: 40px; 
         }
 
         .profile-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #ddd;
-            object-fit: cover;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            border: 2px solid #fff;
-            transition: transform 0.2s ease;
-        }
-
-        .profile-avatar:hover {
-            transform: scale(1.05);
-        }
-
-        .profile-card {
             position: absolute;
-            top: 65px;
-            left: 0;
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            width: 260px;
-            
-            /* Hidden state for smooth animation */
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
+            top: -60px; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #eee;
+            object-fit: cover;
+            border: 4px solid #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
         }
 
-        /* The class JavaScript adds to make it visible */
-        .profile-card.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
+        .floating-profile-card h1 {
+            font-family: Georgia, serif;
+            font-size: 2rem;
+            margin: 10px 0 5px 0;
+            color: #222;
         }
 
-        .profile-card h3 {
+        .floating-profile-card p.credentials {
+            font-size: 1rem;
+            color: #555;
             margin: 0 0 5px 0;
-            font-size: 1.1rem;
-            font-family: Georgia, serif;
+            font-weight: bold;
         }
 
-        .profile-card p {
+        .floating-profile-card p.location {
+            font-size: 0.9rem;
+            color: #888;
             margin: 0;
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 8px;
-        }
-        
-        .profile-card .location {
-            font-size: 0.8rem;
-            color: #999;
         }
 
-        /* Header typography and layout */
-        header {
+        /* --- Portfolio Section --- */
+        .portfolio-section {
+            padding: 60px 20px;
             text-align: center;
-            padding: 80px 20px 40px; /* Increased top padding so it doesn't hit the profile */
         }
 
-        h1 {
-            font-family: Georgia, serif;
-            font-size: 2.5rem;
-            margin: 0 0 10px 0;
-            font-weight: normal;
-        }
-
-        p.subtitle {
-            color: #666;
-            margin: 0 0 30px 0;
-            font-size: 0.95rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        /* Filter Buttons */
         .filters {
             display: flex;
             justify-content: center;
@@ -133,127 +127,169 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
-            padding: 0 40px 60px;
             max-width: 1200px;
             margin: 0 auto;
+            text-align: left;
         }
 
-        /* Individual Item Styling */
         .gallery-item {
             background-color: #EFEFEF; 
-            border-radius: 4px;
+            border-radius: 6px;
             overflow: hidden;
             aspect-ratio: 4/3; 
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #999;
-            font-size: 0.9rem;
         }
 
         .gallery-item img {
             width: 100%;
             height: 100%;
-            object-fit: cover; 
+            object-fit: contain; 
+            cursor: pointer; 
+            transition: transform 0.2s ease;
         }
 
-        /* Removes hidden items from the layout completely */
+        .gallery-item img:hover {
+            transform: scale(1.02); 
+        }
+
         .gallery-item.hidden {
             display: none !important;
         }
 
+        /* --- NEW: Lightbox Styles --- */
+        .lightbox {
+            display: none; 
+            position: fixed;
+            z-index: 9999; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); 
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            max-width: 80%; 
+            max-height: 80%; 
+            object-fit: contain; 
+            border-radius: 4px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.2s ease;
+        }
+
+        .lightbox-close:hover {
+            color: #ccc;
+        }
     </style>
 </head>
 <body>
 
-    <!-- TOP LEFT PROFILE SECTION -->
-    <div class="profile-container">
-        <!-- Change the src to a picture of you, or your logo -->
-        <img src="profile-picture.png" alt="Profile" class="profile-avatar" id="profileAvatar">
+    <!-- HERO SECTION WITH BACKGROUND AND FLOATING PROFILE -->
+    <!-- Put your background image file name here -->
+    <div class="hero-section" style="background-image: url('Front page.png');">
+        <!-- Added ID to the overlay so JavaScript can find it -->
+        <div class="hero-overlay" id="heroOverlay"></div>
         
-        <div class="profile-card" id="profileCard">
-            <h3>Carmel Angelo N. Hervera</h3>
-            <p>Electronics Engineering Student & Animator</p>
+        <div class="floating-profile-card">
+            <img src="my-new-model.jpg" alt="Profile" class="profile-avatar">
+            
+            <h1>Carmel Angelo N. Hervera</h1>
+            <p class="credentials">Electronics Engineering Student & Animator</p>
             <p class="location">Sorsogon City, Philippines</p>
         </div>
     </div>
 
-    <header>
-        <h1>My Animation Works</h1>
-        <p class="subtitle">Portfolio</p>
-
+    <!-- PORTFOLIO SECTION -->
+    <div class="portfolio-section">
+        
         <!-- Category Buttons -->
         <div class="filters">
-            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn active" data-filter="all">All Works</button>
             <button class="filter-btn" data-filter="arts">Arts</button>
-            <button class="filter-btn" data-filter="inbetweens">Inbetweens</button>
+            <button class="filter-btn" data-filter="animations">Animations</button>
             <button class="filter-btn" data-filter="sketches">Sketches</button>
         </div>
-    </header>
 
-    <!-- Gallery Container -->
-    <div class="gallery">
-        
-        <!-- Art Items -->
-        <div class="gallery-item arts">
-            <img src="fuu-chan.png" alt="Fuu-chan">
-        </div>
-        <div class="gallery-item arts">
-            <img src="recreation-signature.png" alt="Recreation signature">
-        </div>
-        <div class="gallery-item arts">
-            <img src="picrew-genshin.png" alt="Picrew genshin for tiktok">
-        </div>
-        <div class="gallery-item arts">
-            <img src="Genshin-oc-picrew.png" alt="Genshin OC picrew">
-        </div>
+        <!-- Gallery Container -->
+        <div class="gallery">
+            
+            <!-- Art Items -->
+            <div class="gallery-item arts">
+                <img src="Fuu-chan.png" alt="Fuu-chan">
+            </div>
+            <div class="gallery-item arts">
+                <img src="recreation-finish.png" alt="Recreation signature">
+            </div>
+            <div class="gallery-item arts">
+                <img src="picrew-genshin.png" alt="Picrew genshin for tiktok">
+            </div>
+            <div class="gallery-item arts">
+                <img src="Genshin-oc-picrew.png" alt="Genshin OC picrew">
+            </div>
 
-        <!-- Inbetween Items -->
-        <div class="gallery-item inbetweens">
-            <img src="1st-action-scene.gif" alt="Inbetween 1 Image Here">
-        </div>
-        <div class="gallery-item inbetweens">
-            <img src="inbetween-2.png" alt="Inbetween 2 Image Here">
-        </div>
-        <div class="gallery-item inbetweens">
-            <img src="inbetween-3.png" alt="Inbetween 3 Image Here">
-        </div>
-        <div class="gallery-item inbetweens">
-            <img src="inbetween-4.png" alt="Inbetween 4 Image Here">
-        </div>
+            <!-- Animation Items -->
+            <div class="gallery-item animations">
+                <img src="1st-action-scene.gif" alt="Animation 1">
+            </div>
+            <div class="gallery-item animations">
+                <img src="I-wink.gif" alt="Animation 2">
+            </div>
+            <div class="gallery-item animations">
+                <img src="Pew... boom.gif" alt="Animation 3">
+            </div>
+            <div class="gallery-item animations">
+                <img src="flustered.gif" alt="Animation 4">
+            </div>
 
-        <!-- Sketch Items -->
-        <div class="gallery-item sketches">
-            <img src="sketch-1.png" alt="Sketch 1 Image Here">
-        </div>
-        <div class="gallery-item sketches">
-            <img src="sketch-2.png" alt="Sketch 2 Image Here">
-        </div>
+            <!-- Sketch Items -->
+            <div class="gallery-item sketches">
+                <img src="Xiangling.jpg" alt="Sketch 1">
+            </div>
+            <div class="gallery-item sketches">
+                <img src="Paimon.png" alt="Sketch 2">
+            </div>
+               <div class="gallery-item sketches">
+                <img src="Lalatina Handpractice 3.jpg" alt="Sketch 2">
+            </div>
 
+
+        </div>
     </div>
 
-    <!-- JavaScript block -->
+    <!-- NEW: Lightbox Container -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" id="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img" src="" alt="Expanded Image">
+    </div>
+
+    <!-- Scripts for Filtering and Lightbox -->
     <script>
-        // --- 1. PROFILE EXPANSION SCRIPT ---
-        const profileAvatar = document.getElementById('profileAvatar');
-        const profileCard = document.getElementById('profileCard');
-
-        // Toggle the card when clicking the avatar
-        profileAvatar.addEventListener('click', (event) => {
-            profileCard.classList.toggle('active');
-            event.stopPropagation(); // Stops the click from instantly triggering the "close" script below
-        });
-
-        // Close the profile card if the user clicks anywhere else on the screen
-        document.addEventListener('click', (event) => {
-            if (!profileCard.contains(event.target)) {
-                profileCard.classList.remove('active');
-            }
-        });
-
-        // --- 2. GALLERY FILTERING SCRIPT ---
+        // 1. Filtering & Background Dimming Logic
         const filterButtons = document.querySelectorAll('.filter-btn');
         const galleryItems = document.querySelectorAll('.gallery-item');
+        const heroOverlay = document.getElementById('heroOverlay');
 
         filterButtons.forEach(button => {
             button.addEventListener('click', () => {
@@ -263,6 +299,15 @@
 
                 const filterValue = button.getAttribute('data-filter');
 
+                // --- NEW: Background dimming logic ---
+                if (filterValue === 'all') {
+                    // Brightens background on "All Works"
+                    heroOverlay.classList.remove('dimmed'); 
+                } else {
+                    // Darkens background on specific categories
+                    heroOverlay.classList.add('dimmed'); 
+                }
+
                 galleryItems.forEach(item => {
                     if (filterValue === 'all' || item.classList.contains(filterValue)) {
                         item.classList.remove('hidden');
@@ -271,6 +316,32 @@
                     }
                 });
             });
+        });
+
+        // 2. Lightbox Logic
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxClose = document.getElementById('lightbox-close');
+        const galleryImages = document.querySelectorAll('.gallery-item img');
+
+        // Open lightbox when an image is clicked
+        galleryImages.forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src; 
+                lightbox.classList.add('active'); 
+            });
+        });
+
+        // Close lightbox when clicking the 'X'
+        lightboxClose.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+
+        // Close lightbox when clicking anywhere on the dark background
+        lightbox.addEventListener('click', (event) => {
+            if (event.target === lightbox) {
+                lightbox.classList.remove('active');
+            }
         });
     </script>
 </body>
